@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+	<title>Simple Read TXT example</title>
+</head>
+<body>
+
+<input type="file" accept=".txt, .edl" id="txtReader" name="txt" />
+<output id="txtOutput"></output>
+
+<script type="text/javascript">
+	
+	document.getElementById('txtReader').addEventListener('change', loadTextFile, false);
+
+	function loadTextFile(event){
+
+		var fileName = event.target.files[0];
+
+		var reader = new FileReader();
+
+		reader.readAsText(fileName);
+
+		reader.onload = function (event){
+
+			var rawTextContent = event.target.result;
+
+			//https://stackoverflow.com/questions/5034781/js-regex-to-split-by-line
+			var arrayOfLines = rawTextContent.match(/[^\r\n]+/g);
+
+			var formattedText = ""
+
+			for (let i = 0; i < arrayOfLines.length; i++){
+				formattedText += ("<p>" + arrayOfLines[i] + "</p>");
+			}
+
+			document.getElementById('txtOutput').innerHTML = formattedText;
+
+		};
+
+	}
+
+</script>
+
+
+
+
+</body>
+</html>
